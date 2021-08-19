@@ -10,13 +10,9 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            Rental rental = new Rental();
-            rental.CarId = 5;
-            rental.CustomerId = 40;
-            rental.RentDate = DateTime.Now;
-            var result = rentalManager.Add(rental);
-            Console.WriteLine(result.Message);
+            CarManager carManager = new CarManager(new EfCarDal());
+            var result = carManager.GetById(1);
+            Console.WriteLine(result.Data.Description);
         }
     }
 }
