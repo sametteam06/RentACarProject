@@ -13,5 +13,7 @@ namespace Business.Constants
         public static string ColorListed = "Renkler Listelendi";
         public static string Success = "İşlem Başarılı";
         public static string Failed = "İşlem Başarısız!";
+        public static string CarInvalid = "Araba Bulunamadı";
+        public static string CustomerInvalid = "Müşteri Bulunamadı";
     }
 }

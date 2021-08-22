@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -15,41 +16,49 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
+        ICarService _carService;
+        ICustomerService _customerService;
 
-        public RentalManager(IRentalDal rentalDal)
+        public RentalManager(IRentalDal rentalDal, ICarService carService, ICustomerService customerService)
         {
+            _customerService = customerService;
+            _carService = carService;
             _rentalDal = rentalDal;
         }
 
         public IResult Add(Rental entity)
         {
-            if (Rentalable(entity)) {
-                _rentalDal.Add(entity);
-                return new SuccessResult(Messages.Success);
-            }else
+            IResult result = BusinessRules.Run(CarCheck(entity), CustomerCheck(entity));
+            if (result != null)
             {
-                return new ErrorResult(Messages.Failed);
+                return result;
             }
-            
+            _rentalDal.Add(entity);
+            return new SuccessResult(Messages.Success);
         }
-        private bool Rentalable(Rental entity)
+        private IResult CarCheck(Rental entity)
         {
-            bool result = false;
-            ICarDal _carDal = new EfCarDal();
-            ICustomerDal _customerDal = new EfCustomerDal();
-
-            foreach (var item1 in _carDal.GetAll())
+            var cars = _carService.GetAll().Data;
+            foreach (var car in cars)
             {
-                foreach (var item2 in _customerDal.GetAll())
+                if (car.Id == entity.CarId)
                 {
-                    if (entity.CustomerId == item2.Id && entity.CarId == item1.Id)
-                    {
-                        result = true;
-                    }
+                    return new SuccessResult();
                 }
             }
-            
-            return result;
+            return new ErrorResult(Messages.CarInvalid);
+        }
+        private IResult CustomerCheck(Rental entity)
+        {
+            var customers = _customerService.GetAll().Data;
+            foreach (var customer in customers)
+            {
+                if(customer.Id == entity.CustomerId)
+                {
+                    return new SuccessResult();
+                }
+            }
+            return new ErrorResult(Messages.CustomerInvalid);
         }
 
         public IResult Delete(Rental entity)
@@ -60,14 +69,9 @@ namespace Business.Concrete
 
         public IDataResult<List<Rental>> GetAll()
         {
-            if (DateTime.Now.Hour == 20)
-            {
-                return new ErrorDataResult<List<Rental>>(Messages.MaintenanceTime);
-            }
-            else
-            {
+           
                 return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.Success);
-            }
+            
         }
 
         public IDataResult<Rental> GetById(int id)
