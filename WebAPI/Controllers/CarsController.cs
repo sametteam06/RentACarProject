@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
 {
@@ -22,6 +23,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
+        [Authorize(Roles ="Admin")]
         public IActionResult Get()
         {
             var result = _carService.GetAll();

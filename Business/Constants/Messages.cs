@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,5 +23,11 @@ namespace Business.Constants
         public static string CarImageDeleted = "Resim silindi";
         public static string CarImageUpdated = "Resim güncellendi";
 
+        public static string UserRegistered = "UserRegistered";
+        public static string UserNotFound = "UserNotFound";
+        public static string PasswordError = "PasswordError";
+        public static string SuccessfulLogin = "SuccessfulLogin";
+        public static string UserAlreadyExists = "UserAlreadyExists";
+        public static string AccessTokenCreated = "AccessTokenCreated";
     }
 }

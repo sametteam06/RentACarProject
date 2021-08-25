@@ -15,7 +15,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarImagesController : ControllerBase
     {
-        ICarImageService _carImageService;
+        private ICarImageService _carImageService;
         public CarImagesController(ICarImageService carImageService)
         {
             _carImageService = carImageService;

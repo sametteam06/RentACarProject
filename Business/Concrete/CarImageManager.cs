@@ -16,8 +16,8 @@ namespace Business.Concrete
 {
     public class CarImageManager : ICarImageService
     {
-        ICarImageDal _imageDal;
-        IFileHelper _fileHelper;
+        private ICarImageDal _imageDal;
+        private IFileHelper _fileHelper;
 
         public CarImageManager(ICarImageDal imageDal, IFileHelper fileHelper)
         {
