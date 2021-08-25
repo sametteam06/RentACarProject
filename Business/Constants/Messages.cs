@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,5 +16,11 @@ namespace Business.Constants
         public static string Failed = "İşlem Başarısız!";
         public static string CarInvalid = "Araba Bulunamadı";
         public static string CustomerInvalid = "Müşteri Bulunamadı";
+        public static string CarPictureNumberExceded = "Bir araba için en fazla beş adet resim eklenebilir.";
+        public static string ImagesNotFound = "Resim Bulunamadı";
+        public static string CarImageAdded = "Resim eklendi";
+        public static string CarImageDeleted = "Resim silindi";
+        public static string CarImageUpdated = "Resim güncellendi";
+
     }
 }

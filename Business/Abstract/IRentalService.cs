@@ -1,5 +1,4 @@
-﻿using Core.Businness.Abstract;
-using Core.Utilities.Results.Abstract;
+﻿using Core.Utilities.Results.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -8,8 +7,13 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface IRentalService:IServiceRepository<Rental>
+    public interface IRentalService
     {
-        public IDataResult<List<RentalDetailDto>> GetRentalDetail();
+        IDataResult<List<Rental>> GetAll();
+        IResult Add(Rental entity);
+        IResult Update(Rental entity);
+        IResult Delete(Rental entity);
+        IDataResult<Rental> GetById(int id);
+        IDataResult<List<RentalDetailDto>> GetRentalDetail();
     }
 }
