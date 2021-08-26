@@ -18,7 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from operationClaim in context.OperationClaims
                              join userOperationClaim in context.UserOperationClaims
-                             on operationClaim.Id equals userOperationClaim.Id
+                             on operationClaim.Id equals userOperationClaim.OperationClaimId
                              where userOperationClaim.UserId == user.Id
                              select new UserOperationClaimDto { UserName = user.FirstName + " " + user.LastName, OperationClaimName = operationClaim.Name, Email = user.Email };
                 return result.ToList();
