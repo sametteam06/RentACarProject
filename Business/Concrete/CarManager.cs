@@ -20,9 +20,11 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         private ICarDal _carDal;
-        public CarManager(ICarDal carDal)
+        private ICarImageService _carImageService;
+        public CarManager(ICarDal carDal, ICarImageService carImageService)
         {
             _carDal = carDal;
+            _carImageService = carImageService;
         }
 
         [ValidationAspect(typeof(CarValidator))]
@@ -67,13 +69,25 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id),Messages.Success);
         }
+        
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            if (DateTime.Now.Hour == 11)
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.Success);
+        }
+
+        public IDataResult<CarDetailDto> GetCarDetailById(int id)
+        {
+            var cars = _carDal.GetCarDetails();
+            foreach (var car in cars)
             {
-                return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceTime);
-            } return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.Success);
+                if(car.CarId == id)
+                {
+                    return new SuccessDataResult<CarDetailDto>(car, Messages.Success);
+                }
+            }
+            return new ErrorDataResult<CarDetailDto>(Messages.CarInvalid);
+            
         }
     }
 }
