@@ -32,5 +32,6 @@ namespace Business.Constants
         public static string AccessTokenCreated = "AccessTokenCreated";
 
         public static string AuthorizationDenied = "AuthorizationDenied";
+        public static string InvalidDate = "InvalidDate";
     }
 }

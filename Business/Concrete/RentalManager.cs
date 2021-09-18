@@ -28,7 +28,7 @@ namespace Business.Concrete
 
         public IResult Add(Rental entity)
         {
-            IResult result = BusinessRules.Run(CarCheck(entity), CustomerCheck(entity));
+            IResult result = BusinessRules.Run(CarCheck(entity), CustomerCheck(entity),DateCheck(entity));
             if (result != null)
             {
                 return result;
@@ -60,6 +60,24 @@ namespace Business.Concrete
             }
             return new ErrorResult(Messages.CustomerInvalid);
         }
+        private IResult DateCheck(Rental entity)
+        {
+            var rentalalbe = this.GetAll();
+            foreach (var rental in rentalalbe.Data)
+            {
+                if (rental.CarId == entity.CarId)
+                {
+                    if (entity.RentDate>=rental.RentDate && entity.RentDate<=rental.ReturnDate)
+                    {
+                        return new ErrorResult(Messages.InvalidDate);
+                    }else if(entity.ReturnDate >= rental.RentDate && entity.ReturnDate <= rental.ReturnDate)
+                    {
+                        return new ErrorResult(Messages.InvalidDate);
+                    }
+                }
+            }
+            return new SuccessResult();
+        }
 
         public IResult Delete(Rental entity)
         {
@@ -87,6 +105,16 @@ namespace Business.Concrete
         public IResult Update(Rental entity)
         {
             _rentalDal.Update(entity);
+            return new SuccessResult(Messages.Success);
+        }
+
+        public IResult Rentalable(Rental entity)
+        {
+            IResult result = BusinessRules.Run(CarCheck(entity), CustomerCheck(entity), DateCheck(entity));
+            if (result != null)
+            {
+                return result;
+            }
             return new SuccessResult(Messages.Success);
         }
     }
