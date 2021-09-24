@@ -16,12 +16,12 @@ namespace DataAccess.Concrete.InMemory
         {
             _cars = new List<Car>
             {
-                new Car {Id=1, BrandId = 1, ColorId = 1, DailyPrice = 100, Description = "Açıklama1", ModelYear = 2010},
-                new Car {Id=2, BrandId = 1, ColorId = 1, DailyPrice = 100, Description = "Açıklama2", ModelYear = 2010},
-                new Car {Id=3, BrandId = 2, ColorId = 1, DailyPrice = 100, Description = "Açıklama3", ModelYear = 2010},
-                new Car {Id=4, BrandId = 2, ColorId = 1, DailyPrice = 100, Description = "Açıklama4", ModelYear = 2010},
-                new Car {Id=5, BrandId = 3, ColorId = 1, DailyPrice = 100, Description = "Açıklama5", ModelYear = 2010},
-                new Car {Id=6, BrandId = 4, ColorId = 1, DailyPrice = 100, Description = "Açıklama6", ModelYear = 2010},
+                new Car {Id=1, BrandId = 1, DisplacementId = 1, DailyPrice = 100, Description = "Açıklama1", ModelYear = 2010},
+                new Car {Id=2, BrandId = 1, DisplacementId = 1, DailyPrice = 100, Description = "Açıklama2", ModelYear = 2010},
+                new Car {Id=3, BrandId = 2, DisplacementId = 1, DailyPrice = 100, Description = "Açıklama3", ModelYear = 2010},
+                new Car {Id=4, BrandId = 2, DisplacementId = 1, DailyPrice = 100, Description = "Açıklama4", ModelYear = 2010},
+                new Car {Id=5, BrandId = 3, DisplacementId = 1, DailyPrice = 100, Description = "Açıklama5", ModelYear = 2010},
+                new Car {Id=6, BrandId = 4, DisplacementId = 1, DailyPrice = 100, Description = "Açıklama6", ModelYear = 2010},
             };
         }
         public void Add(Car car)
@@ -65,7 +65,7 @@ namespace DataAccess.Concrete.InMemory
         {
             Car toUpdate = _cars.SingleOrDefault(c => c.Id == car.Id);
             toUpdate.BrandId = car.BrandId;
-            toUpdate.ColorId = car.ColorId;
+            toUpdate.DisplacementId = car.DisplacementId;
             toUpdate.DailyPrice = car.DailyPrice;
             toUpdate.Description = car.Description;
             toUpdate.ModelYear = car.ModelYear;

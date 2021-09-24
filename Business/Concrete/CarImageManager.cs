@@ -54,6 +54,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.ImagesNotFound);
             }
             _fileHelper.Delete(image.ImagePath);
+            image.CarId = result.CarId;
             _imageDal.Delete(image);
             return new SuccessResult(Messages.CarImageDeleted);
 
@@ -87,6 +88,7 @@ namespace Business.Concrete
             }
             var UpdatedFile = _fileHelper.Update(file, image.ImagePath);
             image.ImagePath = UpdatedFile.Data;
+            image.CarId = result.CarId;
             image.Date = result.Date;
             _imageDal.Update(image);
             return new SuccessResult(Messages.CarImageUpdated);

@@ -12,7 +12,7 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(c => c.DailyPrice).GreaterThan(0);
             RuleFor(c => c.BrandId).NotEmpty();
-            RuleFor(c => c.ColorId).NotEmpty();
+            RuleFor(c => c.DisplacementId).NotEmpty();
             RuleFor(c => c.Description).Must(StartWithA).WithMessage("Açıklama A harfi ile başlamalı");
             RuleFor(c => c.ModelYear).GreaterThan(2010);
             RuleFor(c => c.Description.Length).LessThan(30);

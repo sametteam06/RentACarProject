@@ -13,7 +13,6 @@ namespace Business.Constants
         public static string MaintenanceTime = "Sistem kapalıdır";
         public static string CarListed = "Arabalar Listelendi";
         public static string BrandListed = "Markalar Listelendi";
-        public static string ColorListed = "Renkler Listelendi";
         public static string Success = "İşlem Başarılı";
         public static string Failed = "İşlem Başarısız!";
         public static string CarInvalid = "Araba Bulunamadı";
@@ -33,5 +32,7 @@ namespace Business.Constants
 
         public static string AuthorizationDenied = "AuthorizationDenied";
         public static string InvalidDate = "InvalidDate";
+
+        public static string DisplacementAdded = "DisplacementAdded";
     }
 }

@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Entities.Concrete
 {
-    public class Color:IEntity
+    public class Displacement : IEntity
     {
         public int Id { get; set; }
-        public string ColorName { get; set; }
+        public int EngineDisplacement { get; set; }
+
     }
 }

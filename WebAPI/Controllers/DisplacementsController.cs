@@ -11,18 +11,37 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColorsController : ControllerBase
+    public class DisplacementsController : ControllerBase
     {
-        IColorService _colorService;
-
-        public ColorsController(IColorService colorService)
+        IDisplacementService _displacementService;
+        public DisplacementsController(IDisplacementService displacementService)
         {
-            _colorService = colorService;
+            _displacementService = displacementService;
         }
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _colorService.GetAll();
+            var result = _displacementService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpPost("add")]
+        public IActionResult Add(Displacement displacement)
+        {
+            var result = _displacementService.Add(displacement);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpPost("delete")]
+        public IActionResult Delete(Displacement displacement)
+        {
+            var result = _displacementService.Delete(displacement);
             if (result.Success)
             {
                 return Ok(result);
@@ -32,17 +51,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _colorService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-        [HttpPost("add")]
-        public IActionResult Add(Color color)
-        {
-            var result = _colorService.Add(color);
+            var result = _displacementService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -50,19 +59,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("update")]
-        public IActionResult Update(Color color)
+        public IActionResult Update(Displacement displacement)
         {
-            var result = _colorService.Update(color);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-        [HttpPost("delete")]
-        public IActionResult Delete(Color color)
-        {
-            var result = _colorService.Delete(color);
+            var result = _displacementService.Update(displacement);
             if (result.Success)
             {
                 return Ok(result);
