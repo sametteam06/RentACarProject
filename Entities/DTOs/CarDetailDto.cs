@@ -14,5 +14,6 @@ namespace Entities.DTOs
         public int EngineDisplacement { get; set; }
         public decimal DailyPrice { get; set; }
         public int ModelYear { get; set; }
+        public int MinFindexPoint { get; set; }
     }
 }

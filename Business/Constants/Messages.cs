@@ -34,5 +34,7 @@ namespace Business.Constants
         public static string InvalidDate = "InvalidDate";
 
         public static string DisplacementAdded = "DisplacementAdded";
+
+        public static string InsufficientFindex = "Yetersiz Findex Puanı";
     }
 }

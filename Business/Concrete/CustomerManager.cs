@@ -17,6 +17,7 @@ namespace Business.Concrete
         {
             _customerDal = customerDal;
         }
+
         public IResult Add(Customer entity)
         {
             _customerDal.Add(entity);

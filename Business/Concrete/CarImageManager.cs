@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
@@ -24,6 +25,7 @@ namespace Business.Concrete
             _fileHelper = fileHelper;
             _imageDal = imageDal;
         }
+        [SecuredOperation("admin")]
         public IResult Add(CarImage image, IFormFile file)
         {
             //Logic Code Control
@@ -45,7 +47,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageAdded);
 
         }
-
+        [SecuredOperation("admin")]
         public IResult Delete(CarImage image)
         {
             var result = _imageDal.Get(i => i.Id == image.Id);
@@ -78,7 +80,7 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<CarImage>>(result);
             return new ErrorDataResult<List<CarImage>>(Messages.ImagesNotFound);
         }
-
+        [SecuredOperation("admin")]
         public IResult Update(CarImage image, IFormFile file)
         {
             var result = _imageDal.Get(i => i.Id == image.Id);

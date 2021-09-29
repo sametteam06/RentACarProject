@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
@@ -18,13 +19,13 @@ namespace Business.Concrete
         {
             _displacementDal = displacementDal;
         }
-
+        [SecuredOperation("admin")]
         public IResult Add(Displacement entity)
         {
             _displacementDal.Add(entity);
             return new SuccessResult(Messages.DisplacementAdded);
         }
-
+        [SecuredOperation("admin")]
         public IResult Delete(Displacement entity)
         {
             _displacementDal.Delete(entity);
@@ -40,7 +41,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Displacement>(_displacementDal.Get(d => d.Id == id), Messages.Success);
         }
-
+        [SecuredOperation("admin")]
         public IResult Update(Displacement entity)
         {
             _displacementDal.Update(entity);

@@ -5,12 +5,13 @@ using System.Text;
 
 namespace Entities.Concrete
 {
-    public class Rental:IEntity
+    public class CreditCard:IEntity
     {
         public int Id { get; set; }
-        public int CarId { get; set; }
         public int UserId { get; set; }
-        public DateTime RentDate { get; set; }
-        public DateTime? ReturnDate { get; set; }
+        public string CVV { get; set; }
+        public string Valid { get; set; }
+        public string Name { get; set; }
+        public string CardNumber { get; set; }
     }
 }

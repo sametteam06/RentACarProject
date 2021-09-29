@@ -17,18 +17,18 @@ namespace Business.Concrete
     {
         IRentalDal _rentalDal;
         ICarService _carService;
-        ICustomerService _customerService;
+        IUserService _userService;
 
-        public RentalManager(IRentalDal rentalDal, ICarService carService, ICustomerService customerService)
+        public RentalManager(IRentalDal rentalDal, ICarService carService, IUserService customerService)
         {
-            _customerService = customerService;
+            _userService = customerService;
             _carService = carService;
             _rentalDal = rentalDal;
         }
 
         public IResult Add(Rental entity)
         {
-            IResult result = BusinessRules.Run(CarCheck(entity), CustomerCheck(entity),DateCheck(entity));
+            IResult result = BusinessRules.Run(CarCheck(entity), UserCheck(entity),DateCheck(entity), FindexCheck(entity));
             if (result != null)
             {
                 return result;
@@ -48,12 +48,12 @@ namespace Business.Concrete
             }
             return new ErrorResult(Messages.CarInvalid);
         }
-        private IResult CustomerCheck(Rental entity)
+        private IResult UserCheck(Rental entity)
         {
-            var customers = _customerService.GetAll().Data;
-            foreach (var customer in customers)
+            var users = _userService.GetAll().Data;
+            foreach (var user in users)
             {
-                if(customer.Id == entity.CustomerId)
+                if(user.Id == entity.UserId)
                 {
                     return new SuccessResult();
                 }
@@ -110,12 +110,22 @@ namespace Business.Concrete
 
         public IResult Rentalable(Rental entity)
         {
-            IResult result = BusinessRules.Run(CarCheck(entity), CustomerCheck(entity), DateCheck(entity));
+            IResult result = BusinessRules.Run(CarCheck(entity), UserCheck(entity), DateCheck(entity), FindexCheck(entity));
             if (result != null)
             {
                 return result;
             }
             return new SuccessResult(Messages.Success);
+        }
+        private IResult FindexCheck(Rental entity)
+        {
+            var minFindex = _carService.GetById(entity.CarId).Data.MinFindexPoint;
+            var userFindex = _userService.GetById(entity.UserId).Data.FindexPoint;
+            if (minFindex <= userFindex)
+            {
+                return new SuccessResult();
+            }
+            return new ErrorResult(Messages.InsufficientFindex);
         }
     }
 }

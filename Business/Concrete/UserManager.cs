@@ -2,6 +2,7 @@
 using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Entities.DTOs;
+using Core.Utilities.Helper.HashingHelper;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -27,6 +28,80 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Success);
         }
 
+        public IDataResult<User> ChangeEmail(UserEmailChangeModel userEmailChangeModel)
+        {
+            var currentUser = GetById(userEmailChangeModel.UserId);
+            var user = new User();
+            if (currentUser.Data.Email == userEmailChangeModel.Email)
+            {
+                user.Email = userEmailChangeModel.Email;
+            }else
+            {
+                if (!UserExists(userEmailChangeModel.Email).Success)
+                {
+                    return new ErrorDataResult<User>(GetById(userEmailChangeModel.UserId).Data, Messages.UserAlreadyExists);
+                }
+                else
+                {
+                    user.Email = userEmailChangeModel.Email;
+                }
+            };
+            
+            {
+                user.Id = currentUser.Data.Id;
+                user.FirstName = currentUser.Data.FirstName;
+                user.LastName = currentUser.Data.LastName;
+                user.PasswordHash = currentUser.Data.PasswordHash;
+                user.PasswordSalt = currentUser.Data.PasswordSalt;
+                user.Status = true;
+                user.FindexPoint = currentUser.Data.FindexPoint;
+                Update(user);
+                return new SuccessDataResult<User>(GetById(user.Id).Data, Messages.Success);
+            }
+        }
+
+        public IDataResult<User> ChangeName(UserNameChangeModel userNameChangeModel)
+        {
+            var currentUser = GetById(userNameChangeModel.UserId);
+            var user = new User
+            {
+                Id = currentUser.Data.Id,
+                Email = currentUser.Data.Email,
+                FirstName = userNameChangeModel.FirstName,
+                LastName = userNameChangeModel.LastName,
+                PasswordHash = currentUser.Data.PasswordHash,
+                PasswordSalt = currentUser.Data.PasswordSalt,
+                FindexPoint = currentUser.Data.FindexPoint,
+                Status = true
+            };
+            Update(user);
+            return new SuccessDataResult<User>(GetById(user.Id).Data, Messages.Success);
+        }
+
+        public IDataResult<User> ChangePw(UserPwChangeModel userPwChangeModel)
+        {
+            if(userPwChangeModel.Password != userPwChangeModel.PasswordCheck)
+            {
+                return new ErrorDataResult<User>(GetById(userPwChangeModel.UserId).Data, Messages.PasswordError);
+            }
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHast(userPwChangeModel.Password, out passwordHash, out passwordSalt);
+            var currentUser = GetById(userPwChangeModel.UserId);
+            var user = new User
+            {
+                Id = currentUser.Data.Id,
+                Email = currentUser.Data.Email,
+                FirstName = currentUser.Data.FirstName,
+                LastName = currentUser.Data.LastName,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                FindexPoint = currentUser.Data.FindexPoint,
+                Status = true
+            };
+            Update(user);
+            return new SuccessDataResult<User>(GetById(user.Id).Data, Messages.Success);
+        }
+
         public IResult Delete(User entity)
         {
             _userDal.Delete(entity);
@@ -35,14 +110,9 @@ namespace Business.Concrete
 
         public IDataResult<List<User>> GetAll()
         {
-            if (DateTime.Now.Hour == 20)
-            {
-                return new ErrorDataResult<List<User>>(Messages.MaintenanceTime);
-            }
-            else
-            {
-                return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.Success);
-            }
+            
+            return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.Success);
+            
         }
 
         public IDataResult<User> GetById(int id)
@@ -65,5 +135,15 @@ namespace Business.Concrete
             _userDal.Update(entity);
             return new SuccessResult(Messages.Success);
         }
+
+        public IResult UserExists(string email)
+        {
+            if (GetByMail(email).Data != null)
+            {
+                return new ErrorResult(Messages.UserAlreadyExists);
+            }
+            return new SuccessResult();
+        }
     }
+
 }
