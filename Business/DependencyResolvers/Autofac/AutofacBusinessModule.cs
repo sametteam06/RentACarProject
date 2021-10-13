@@ -29,6 +29,10 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<List<string>>().As<List<string>>().SingleInstance();
             builder.RegisterType<DisplacementManager>().As<IDisplacementService>().SingleInstance();
             builder.RegisterType<CreditCardManager>().As<ICreditCardService>().SingleInstance();
+            builder.RegisterType<UserImageManager>().As<IUserImageService>().SingleInstance();
+            builder.RegisterType<UserOperationClaimManager>().As<IUserOperationClaimService>().SingleInstance();
+            builder.RegisterType<OperationClaimManager>().As<IOperationClaimService>().SingleInstance();
+
 
 
 
@@ -41,6 +45,10 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfCarImageDal>().As<ICarImageDal>().SingleInstance();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
             builder.RegisterType<EfCreditCardDal>().As<ICreditCardDal>().SingleInstance();
+            builder.RegisterType<EfUserImageDal>().As<IUserImageDal>().SingleInstance();
+            builder.RegisterType<EfOperationClaimDal>().As<IOperationClaimDal>().SingleInstance();
+            builder.RegisterType<EfUserOperationClaimDal>().As<IUserOperationClaimDal>().SingleInstance();
+
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

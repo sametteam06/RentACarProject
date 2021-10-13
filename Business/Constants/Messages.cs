@@ -36,5 +36,7 @@ namespace Business.Constants
         public static string DisplacementAdded = "DisplacementAdded";
 
         public static string InsufficientFindex = "Yetersiz Findex Puanı";
+
+        public static string ImageAdded = "Resim Eklendi";
     }
 }
