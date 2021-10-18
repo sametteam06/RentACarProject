@@ -123,5 +123,21 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<IDataResult<string>>(data: imageResult);
         }
+
+        public IDataResult<CarImage> GetCarsFirstImage(int carId)
+        {
+            var result = _imageDal.GetCarsFirstImage(i => i.CarId == carId);
+            if (result!=null)
+            {
+                return new SuccessDataResult<CarImage>(result, Messages.Success);
+            }
+            else
+            {
+                result = new CarImage();
+                result.ImagePath = "/images/default-image.jpg";
+                return new SuccessDataResult<CarImage>(result, Messages.Success);
+            }
+            
+        }
     }
 }

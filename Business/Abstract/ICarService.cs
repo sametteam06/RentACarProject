@@ -18,5 +18,6 @@ namespace Business.Abstract
         IDataResult<List<Car>> GetCarsByDisplacementId(int id);
         IDataResult<List<CarDetailDto>> GetCarDetails();
         IDataResult<CarDetailDto> GetCarDetailById(int id);
+        IDataResult<List<CarMainPageDto>> GetCarsForMainPage();
     }
 }

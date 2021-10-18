@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -32,11 +33,13 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Success);
         }
 
+        [CacheAspect]
         public IDataResult<List<Displacement>> GetAll()
         {
             return new SuccessDataResult<List<Displacement>>(_displacementDal.GetAll(),Messages.Success);
         }
 
+        [CacheAspect]
         public IDataResult<Displacement> GetById(int id)
         {
             return new SuccessDataResult<Displacement>(_displacementDal.Get(d => d.Id == id), Messages.Success);

@@ -20,9 +20,11 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         private ICarDal _carDal;
-        public CarManager(ICarDal carDal)
+        private ICarImageService _carImageService;
+        public CarManager(ICarDal carDal, ICarImageService carImageService)
         {
             _carDal = carDal;
+            _carImageService = carImageService;
         }
         [SecuredOperation("admin")]
         [ValidationAspect(typeof(CarValidator))]
@@ -67,7 +69,6 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id),Messages.Success);
         }
-        
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
@@ -86,6 +87,26 @@ namespace Business.Concrete
             }
             return new ErrorDataResult<CarDetailDto>(Messages.CarInvalid);
             
+        }
+
+        public IDataResult<List<CarMainPageDto>> GetCarsForMainPage()
+        {
+            var details = GetCarDetails();
+            List<CarMainPageDto> result = new List<CarMainPageDto>();
+            foreach (var car in details.Data)
+            {
+                CarMainPageDto model = new CarMainPageDto();
+                model.BrandName = car.BrandName;
+                model.CarId = car.CarId;
+                model.CarName = car.CarName;
+                model.DailyPrice = car.DailyPrice;
+                model.EngineDisplacement = car.EngineDisplacement;
+                model.MinFindexPoint = car.MinFindexPoint;
+                model.ModelYear = car.ModelYear;
+                model.ImagePath = _carImageService.GetCarsFirstImage(model.CarId).Data.ImagePath;
+                result.Add(model);
+            }
+            return new SuccessDataResult<List<CarMainPageDto>>(result, Messages.Success);
         }
     }
 }

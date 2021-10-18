@@ -116,5 +116,15 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+        [HttpGet("getcarsformainpage")]
+        public IActionResult GetCarsForMainPage()
+        {
+            var result = _carService.GetCarsForMainPage();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }
