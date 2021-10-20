@@ -35,9 +35,9 @@ namespace ConsoleUI
             //Console.WriteLine(car.CarName + "   /" + car.Images+"/");
 
 
-            Car car = new Car();
+            //Car car = new Car();
 
-            CarManager carManager = new CarManager(new InMemoryCarDal());
+            //CarManager carManager = new CarManager(new InMemoryCarDal());
 
 
         }

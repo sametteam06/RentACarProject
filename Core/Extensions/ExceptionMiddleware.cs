@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,6 +48,17 @@ namespace Core.Extensions
                     StatusCode = 400,
                     Message = message,
                     Errors = errors
+                }.ToString());
+            }
+
+            if(e.Message == "AuthorizationDenied")
+            {
+                message = e.Message;
+                httpContext.Response.StatusCode = 400;
+                return httpContext.Response.WriteAsync(new ErrorDetails
+                {
+                    StatusCode = httpContext.Response.StatusCode,
+                    Message = message
                 }.ToString());
             }
 

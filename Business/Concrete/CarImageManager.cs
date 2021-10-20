@@ -76,9 +76,17 @@ namespace Business.Concrete
         public IDataResult<List<CarImage>> GetByCarId(int id)
         {
             var result = _imageDal.GetAll(i => i.CarId == id);
-            if (result != null)
+            if (result.Count != 0)
+            {
                 return new SuccessDataResult<List<CarImage>>(result);
-            return new ErrorDataResult<List<CarImage>>(Messages.ImagesNotFound);
+            }
+            else
+            {
+                var defaultImage = new CarImage();
+                defaultImage.ImagePath = "/images/default-image.jpg";
+                result.Add(defaultImage);
+                return new SuccessDataResult<List<CarImage>>(result, Messages.Success);
+            }
         }
         [SecuredOperation("admin")]
         public IResult Update(CarImage image, IFormFile file)

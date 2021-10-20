@@ -108,5 +108,55 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<List<CarMainPageDto>>(result, Messages.Success);
         }
+
+        public IDataResult<List<CarMainPageDto>> GetCarsForMainPageByBrandId(int id)
+        {
+            var details = GetCarDetailsByBrandId(id);
+            List<CarMainPageDto> result = new List<CarMainPageDto>();
+            foreach (var car in details.Data)
+            {
+                CarMainPageDto model = new CarMainPageDto();
+                model.BrandName = car.BrandName;
+                model.CarId = car.CarId;
+                model.CarName = car.CarName;
+                model.DailyPrice = car.DailyPrice;
+                model.EngineDisplacement = car.EngineDisplacement;
+                model.MinFindexPoint = car.MinFindexPoint;
+                model.ModelYear = car.ModelYear;
+                model.ImagePath = _carImageService.GetCarsFirstImage(model.CarId).Data.ImagePath;
+                result.Add(model);
+            }
+            return new SuccessDataResult<List<CarMainPageDto>>(result, Messages.Success);
+        }
+
+        public IDataResult<List<CarMainPageDto>> GetCarsForMainPageByDisplacementId(int id)
+        {
+            var details = GetCarDetailsByDisplacementId(id);
+            List<CarMainPageDto> result = new List<CarMainPageDto>();
+            foreach (var car in details.Data)
+            {
+                CarMainPageDto model = new CarMainPageDto();
+                model.BrandName = car.BrandName;
+                model.CarId = car.CarId;
+                model.CarName = car.CarName;
+                model.DailyPrice = car.DailyPrice;
+                model.EngineDisplacement = car.EngineDisplacement;
+                model.MinFindexPoint = car.MinFindexPoint;
+                model.ModelYear = car.ModelYear;
+                model.ImagePath = _carImageService.GetCarsFirstImage(model.CarId).Data.ImagePath;
+                result.Add(model);
+            }
+            return new SuccessDataResult<List<CarMainPageDto>>(result, Messages.Success);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int id)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c=>c.BrandId == id), Messages.Success);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByDisplacementId(int id)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c=>c.DisplacementId == id), Messages.Success);
+        }
     }
 }
